@@ -11,6 +11,6 @@ if __name__ == '__main__':
         secret_key = get_random_string(50)
     debug = input('Enter DEBUG (on/off): ')
     with open(os.path.join(previous_folder, '.env'), 'w') as f:
-        f.write(f'SECRET_KEY="{secret_key}"\n')
+        f.write(f'SECRET_KEY={secret_key}\n')
         f.write(f'DEBUG={debug}\n')
     print('.env file created in parent folder.')
