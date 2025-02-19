@@ -11,17 +11,15 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 
-
 from datetime import timedelta
 from pathlib import Path
-import dotenv 
+import dotenv
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-dotenv.load_dotenv(BASE_DIR/ '../.env')
-
+dotenv.load_dotenv(BASE_DIR / '../.env')
 
 
 # Quick-start development settings - unsuitable for production
@@ -49,7 +47,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt',
     'main',
-    
+
 ]
 
 MIDDLEWARE = [
@@ -146,7 +144,7 @@ CORS_ALLOWED_ORIGINS = [
     'http://127.0.0.1:80',
     'https://127.0.0.1:8080',
     'http://localhost:3000',
-    
+
 ]
 
 
