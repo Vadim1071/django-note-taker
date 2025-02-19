@@ -11,10 +11,11 @@ from .serializers import NoteSerializer, TagSerializer, FolderSerializer, Applic
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.permissions import DjangoModelPermissionsOrAnonReadOnly
+from rest_framework.permissions import DjangoModelPermissionsOrAnonReadOnly, IsAuthenticated
 from rest_framework import viewsets, status, generics
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.exceptions import PermissionDenied
+
 import logging
 
 logger = logging.getLogger(__name__)
@@ -73,7 +74,17 @@ class TagViewSet(ModelViewSet):
 class NoteViewSet(ModelViewSet):
     serializer_class = NoteSerializer
     queryset = Note.objects.all()
-    permission_classes = [DjangoModelPermissionsOrAnonReadOnly]
+    permission_classes = [IsAuthenticated]
+
+    def create(self, request, *args, **kwargs):
+        logger.info(f"Incoming data for creating note: {request.data}")
+        serializer = self.get_serializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(user=request.user)  # Автоматически добавляем пользователя
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            logger.error(f"Validation error: {serializer.errors}")
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def perform_create(self, serializer):
         if self.request.user.is_authenticated:
