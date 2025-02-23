@@ -19,6 +19,7 @@ import logging
 
 logger = logging.getLogger(__name__)
 
+
 class RegisterView(APIView):
     def post(self, request):
         try:
@@ -40,7 +41,8 @@ class RegisterView(APIView):
                     status=status.HTTP_400_BAD_REQUEST
                 )
 
-            user = User.objects.create_user(username=username, password=password, email=email)
+            user = User.objects.create_user(
+                username=username, password=password, email=email)
             logger.info(f'User {username} registered successfully')
             return Response(
                 {'message': 'User registered successfully'},
@@ -53,6 +55,7 @@ class RegisterView(APIView):
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
 
+
 class ApplicationViewSet(viewsets.ModelViewSet):
     serializer_class = ApplicationSerializer
     queryset = Application.objects.all()
@@ -63,12 +66,15 @@ class ApplicationViewSet(viewsets.ModelViewSet):
         if self.request.user.is_authenticated:
             serializer.save(user=self.request.user)
         else:
-            raise PermissionDenied("User must be authenticated to perform this action.")
+            raise PermissionDenied(
+                "User must be authenticated to perform this action.")
+
 
 class TagViewSet(ModelViewSet):
     serializer_class = TagSerializer
     queryset = Tag.objects.all()
     permission_classes = [DjangoModelPermissionsOrAnonReadOnly]
+
 
 class NoteViewSet(ModelViewSet):
     serializer_class = NoteSerializer
@@ -83,6 +89,7 @@ class FolderViewSet(ModelViewSet):
     serializer_class = FolderSerializer
     queryset = Folder.objects.all()
     permission_classes = [DjangoModelPermissionsOrAnonReadOnly]
+
 
 def index(request):
     return render(request, "index.html")
