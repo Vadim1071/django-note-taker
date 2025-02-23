@@ -14,7 +14,7 @@ class NoteSerializer(serializers.ModelSerializer):
     user = serializers.HiddenField(default=CurrentUserDefault())
     class Meta:
         model = Note
-        fields = ('id', 'title', 'content', 'tags', 'created_at', 'modified_at')
+        fields = ('id', 'title', 'content', 'tags', 'created_at', 'modified_at', 'user')
 
 
     

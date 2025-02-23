@@ -17,7 +17,6 @@ class Note(models.Model):
         verbose_name_plural = 'заметки'
         verbose_name = 'заметка'
 
-
 class Application(models.Model):
     class Type(models.IntegerChoices):
         REFERENCE = 0

@@ -11,7 +11,7 @@ from .serializers import NoteSerializer, TagSerializer, FolderSerializer, Applic
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.permissions import DjangoModelPermissionsOrAnonReadOnly
+from rest_framework.permissions import DjangoModelPermissionsOrAnonReadOnly, IsAuthenticated
 from rest_framework import viewsets, status, generics
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.exceptions import PermissionDenied
@@ -73,13 +73,11 @@ class TagViewSet(ModelViewSet):
 class NoteViewSet(ModelViewSet):
     serializer_class = NoteSerializer
     queryset = Note.objects.all()
-    permission_classes = [DjangoModelPermissionsOrAnonReadOnly]
+    permission_classes = [IsAuthenticated]
 
     def perform_create(self, serializer):
-        if self.request.user.is_authenticated:
-            serializer.save(user=self.request.user)
-        else:
-            raise PermissionDenied("User must be authenticated to perform this action.")
+        logger.info(f"Creating note for user: {self.request.user}")
+        serializer.save(user=self.request.user)
 
 class FolderViewSet(ModelViewSet):
     serializer_class = FolderSerializer
