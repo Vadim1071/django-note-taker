@@ -1,7 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-
 class Note(models.Model):
     title = models.CharField(max_length=255)
     content = models.TextField(blank=True, null=True)
@@ -9,16 +8,13 @@ class Note(models.Model):
     tags = models.ManyToManyField("Tag", verbose_name="теги", blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
-    folder = models.ForeignKey(
-        "Folder",
-        on_delete=models.CASCADE,
-        null=True,
-        blank=True)
+    folder = models.ForeignKey("Folder", on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
         return self.title
 
     class Meta:
+        ordering = ['-created_at']
         verbose_name_plural = 'заметки'
         verbose_name = 'заметка'
 

@@ -18,6 +18,7 @@ class NoteSerializer(serializers.ModelSerializer):
         fields = ('id', 'title', 'content', 'tags', 'created_at', 'modified_at', 'user')
 
 
+
 class FolderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Folder
