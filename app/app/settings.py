@@ -16,6 +16,17 @@ from pathlib import Path
 import dotenv
 import os
 
+import socket
+
+# Переопределение функции getfqdn
+def get_fixed_fqdn(name):
+    try:
+        return socket.gethostbyaddr(name)[0]
+    except UnicodeDecodeError:
+        return 'localhost'
+
+socket.getfqdn = get_fixed_fqdn
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 

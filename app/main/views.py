@@ -82,23 +82,9 @@ class NoteViewSet(ModelViewSet):
     queryset = Note.objects.all()
     permission_classes = [IsAuthenticated]
 
-    def create(self, request, *args, **kwargs):
-        logger.info(f"Incoming data for creating note: {request.data}")
-        serializer = self.get_serializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save(user=request.user)  # Автоматически добавляем пользователя
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        else:
-            logger.error(f"Validation error: {serializer.errors}")
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
     def perform_create(self, serializer):
-        if self.request.user.is_authenticated:
-            serializer.save(user=self.request.user)
-        else:
-            raise PermissionDenied(
-                "User must be authenticated to perform this action.")
-
+        logger.info(f"Creating note for user: {self.request.user}")
+        serializer.save(user=self.request.user)
 
 class FolderViewSet(ModelViewSet):
     serializer_class = FolderSerializer
