@@ -5,9 +5,11 @@ from django.contrib.auth.models import User
 
 
 class TagSerializer(serializers.ModelSerializer):
+    user = serializers.HiddenField(default=CurrentUserDefault())  # Добавлено поле user
+
     class Meta:
         model = Tag
-        fields = ('id', 'title', 'notes')
+        fields = ('id', 'title', 'notes', 'user')  # Добавлено поле user
 
 
 class NoteSerializer(serializers.ModelSerializer):

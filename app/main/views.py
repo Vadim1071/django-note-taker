@@ -61,7 +61,7 @@ class ApplicationViewSet(viewsets.ModelViewSet):
     serializer_class = ApplicationSerializer
     queryset = Application.objects.all()
     parser_classes = (MultiPartParser, FormParser)
-    permission_classes = [DjangoModelPermissionsOrAnonReadOnly]
+    permission_classes = [IsAuthenticated]
 
     def perform_create(self, serializer):
         if self.request.user.is_authenticated:
@@ -74,7 +74,7 @@ class ApplicationViewSet(viewsets.ModelViewSet):
 class TagViewSet(ModelViewSet):
     serializer_class = TagSerializer
     queryset = Tag.objects.all()
-    permission_classes = [DjangoModelPermissionsOrAnonReadOnly]
+    permission_classes = [IsAuthenticated]
 
 
 class NoteViewSet(ModelViewSet):
@@ -89,7 +89,7 @@ class NoteViewSet(ModelViewSet):
 class FolderViewSet(ModelViewSet):
     serializer_class = FolderSerializer
     queryset = Folder.objects.all()
-    permission_classes = [DjangoModelPermissionsOrAnonReadOnly]
+    permission_classes = [IsAuthenticated]
 
 
 def index(request):
